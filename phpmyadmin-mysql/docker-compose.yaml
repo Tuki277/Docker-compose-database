@@ -2,18 +2,20 @@ version: '3'
  
 services:
   db:
+    platform: linux/x86_64
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_ROOT_PASSWORD: admin123
       MYSQL_DATABASE: app_db
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: db_user_pass
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
     ports:
       - "6033:3306"
     volumes:
       - dbdata:/var/lib/mysql
   phpmyadmin:
+    platform: linux/x86_64
     image: phpmyadmin/phpmyadmin
     container_name: pma
     links:
@@ -22,7 +24,6 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
-    restart: always
     ports:
       - 8081:80
 volumes:
