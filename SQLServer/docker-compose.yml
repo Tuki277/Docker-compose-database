@@ -1,13 +1,13 @@
-version: '3.9'
+version: "3"
 
 services:
   mssql:
     platform: linux/x86_64
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: 'mcr.microsoft.com/azure-sql-edge'
     ports:
-      - 1433:1433
-    volumes:
-      - ~/apps/mssql/data:/var/lib/mssqlql/data
+        - '1433:1433'
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=mssql1Ipw
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=Admin123
+    volumes:
+        - './drive:/var/opt/mssql'
