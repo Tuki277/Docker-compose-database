@@ -1,6 +1,7 @@
 version: "3.4"
 services:
   cadvisor:
+    # image: zcube/cadvisor # ARM version
     image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
