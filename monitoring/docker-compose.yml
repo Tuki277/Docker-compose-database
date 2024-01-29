@@ -1,8 +1,8 @@
 version: "3.4"
 services:
   cadvisor:
-    # image: zcube/cadvisor # ARM version
-    image: gcr.io/google-containers/cadvisor:latest
+    image: zcube/cadvisor # ARM version
+    # image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
     - 8080:8080
@@ -21,6 +21,15 @@ services:
     - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
     - cadvisor
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
   grafana:
     image: grafana/grafana-enterprise
     container_name: grafana

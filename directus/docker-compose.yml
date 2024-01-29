@@ -1,0 +1,42 @@
+version: "3"
+services:
+  directus:
+    image: directus/directus:10.8.3
+    ports:
+      - 8055:8055
+    volumes:
+      - ./database:/directus/database
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    environment:
+      KEY: "replace-with-random-value"
+      SECRET: "replace-with-random-value"
+      ADMIN_EMAIL: "huyth@ikameglobal.com"
+      ADMIN_PASSWORD: "HoangHuy@01"
+      DB_CLIENT: "postgres"
+      DB_HOST: "10.10.0.56"
+      DB_PORT: "5432"
+      DB_DATABASE: "directus"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_SSL: "false"
+      DB_FILENAME: "/directus/database/data.db"
+      WEBSOCKETS_ENABLED: true
+  postgres:
+    platform: linux/x86_64
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Re9K2DRNS1DDW2G
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - dev
+networks:
+  dev:
+    driver: bridge
+volumes:
+  db:
+    driver: local
