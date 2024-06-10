@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  master:
+    platform: linux/x86_64
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - master:/var/lib/postgresql/data
+      - ./master-init:/docker-entrypoint-initdb.d/
+  slave:
+    platform: linux/x86_64
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - slave:/var/lib/postgresql/data
+      - ./slave-init:/docker-entrypoint-initdb.d/
+volumes:
+  master:
+    driver: local
+  slave:
+    driver: local
