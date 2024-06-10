@@ -8,6 +8,7 @@ max_wal_senders = 3
 wal_keep_size = 64
 EOF
 
+# if diffirent instance, change 0.0.0.0. to ip/32
 cat >> ${PGDATA}/pg_hba.conf <<EOF
 host replication repl_user 0.0.0.0/0 md5
 EOF
