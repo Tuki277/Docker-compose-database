@@ -1,7 +1,7 @@
 version: "3"
 services:
   directus:
-    image: directus/directus:10.8.3
+    image: directus/directus:10.10.4
     ports:
       - 8055:8055
     volumes:
@@ -14,7 +14,7 @@ services:
       ADMIN_EMAIL: "huyth@ikameglobal.com"
       ADMIN_PASSWORD: "HoangHuy@01"
       DB_CLIENT: "postgres"
-      DB_HOST: "10.10.0.56"
+      DB_HOST: "192.168.207.2"
       DB_PORT: "5432"
       DB_DATABASE: "directus"
       DB_USER: "postgres"
@@ -22,21 +22,21 @@ services:
       DB_SSL: "false"
       DB_FILENAME: "/directus/database/data.db"
       WEBSOCKETS_ENABLED: true
-  postgres:
-    platform: linux/x86_64
-    image: postgres:14.1-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Re9K2DRNS1DDW2G
-    ports:
-      - '5432:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
-    networks:
-      - dev
+  # postgres:
+  #   platform: linux/x86_64
+  #   image: postgres:14.1-alpine
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=Re9K2DRNS1DDW2G
+  #   ports:
+  #     - '5432:5432'
+  #   volumes:
+  #     - db:/var/lib/postgresql/data
+  #   networks:
+  #     - dev
 networks:
   dev:
     driver: bridge
-volumes:
-  db:
-    driver: local
+# volumes:
+#   db:
+#     driver: local
