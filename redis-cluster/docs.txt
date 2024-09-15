@@ -1,3 +1,0 @@
-docker exec -it <container name> bash
-redis-cli --cluster create <network-container-name> ... --cluster-replicas 0
-
