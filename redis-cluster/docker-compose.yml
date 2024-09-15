@@ -1,43 +1,40 @@
 version: '3'
 
 services:
-  redis-1:
-    image: redis:6.2
-    command: redis-server --port 7000 --cluster-enabled yes --cluster-config-file nodes-7000.conf --cluster-node-timeout 5000 --appendonly yes
+  redis-node1:
+    image: redis:7.0-alpine
+    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
     ports:
-      - "7000:7000"
-      - "17000:17000"
+      - "6379:6379"
     volumes:
-      - redis-1-data:/data
+      - redis-data-node1:/data
     networks:
-      - redis-net
+      - redis-cluster
 
-  redis-2:
-    image: redis:6.2
-    command: redis-server --port 7001 --cluster-enabled yes --cluster-config-file nodes-7001.conf --cluster-node-timeout 5000 --appendonly yes
+  redis-node2:
+    image: redis:7.0-alpine
+    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
     ports:
-      - "7001:7001"
-      - "17001:17001"
+      - "6380:6379"
     volumes:
-      - redis-2-data:/data
+      - redis-data-node2:/data
     networks:
-      - redis-net
+      - redis-cluster
 
-  redis-3:
-    image: redis:6.2
-    command: redis-server --port 7002 --cluster-enabled yes --cluster-config-file nodes-7002.conf --cluster-node-timeout 5000 --appendonly yes
+  redis-node3:
+    image: redis:7.0-alpine
+    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
     ports:
-      - "7002:7002"
-      - "17002:17002"
+      - "6381:6379"
     volumes:
-      - redis-3-data:/data
+      - redis-data-node3:/data
     networks:
-      - redis-net
+      - redis-cluster
 
 networks:
-  redis-net:
+  redis-cluster:
 
 volumes:
-  redis-1-data:
-  redis-2-data:
-  redis-3-data:
+  redis-data-node1:
+  redis-data-node2:
+  redis-data-node3:
