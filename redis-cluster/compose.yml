@@ -18,22 +18,16 @@ services:
         condition: service_healthy
       redis-node-2:
         condition: service_healthy
-      redis-node-3:
-        condition: service_healthy
-      redis-node-4:
-        condition: service_healthy
-      redis-node-5:
-        condition: service_healthy
-      redis-node-6:
-        condition: service_healthy
     image: docker.io/redis:latest
     network_mode: host
+
   redis-node-1:
     command:
       - redis-server
       - /redis/redis.conf
       - --port
       - '7001'
+      - --maxclients 10000000
     healthcheck:
       interval: 5s
       retries: '3'
@@ -52,12 +46,14 @@ services:
     volumes:
       - redis-data-1:/data
       - ./redis:/redis
+
   redis-node-2:
     command:
       - redis-server
       - /redis/redis.conf
       - --port
       - '7002'
+      - --maxclients 10000000
     healthcheck:
       interval: 5s
       retries: '3'
@@ -76,12 +72,14 @@ services:
     volumes:
       - redis-data-2:/data
       - ./redis:/redis
+
   redis-node-3:
     command:
       - redis-server
       - /redis/redis.conf
       - --port
       - '7003'
+      - --maxclients 10000000
     healthcheck:
       interval: 5s
       retries: '3'
@@ -89,7 +87,7 @@ services:
         - CMD
         - redis-cli
         - -p
-        - '7003'
+        - '7002'
         - -c
         - ping
       timeout: 2s
@@ -100,12 +98,14 @@ services:
     volumes:
       - redis-data-3:/data
       - ./redis:/redis
+
   redis-node-4:
     command:
       - redis-server
       - /redis/redis.conf
       - --port
       - '7004'
+      - --maxclients 10000000
     healthcheck:
       interval: 5s
       retries: '3'
@@ -124,12 +124,14 @@ services:
     volumes:
       - redis-data-4:/data
       - ./redis:/redis
+
   redis-node-5:
     command:
       - redis-server
       - /redis/redis.conf
       - --port
       - '7005'
+      - --maxclients 10000000
     healthcheck:
       interval: 5s
       retries: '3'
@@ -148,12 +150,14 @@ services:
     volumes:
       - redis-data-5:/data
       - ./redis:/redis
+
   redis-node-6:
     command:
       - redis-server
       - /redis/redis.conf
       - --port
       - '7006'
+      - --maxclients 10000000
     healthcheck:
       interval: 5s
       retries: '3'
@@ -170,8 +174,9 @@ services:
     ports:
       - 7006:7000
     volumes:
-      - redis-data-6:/data
+      - redis-data-4:/data
       - ./redis:/redis
+
 volumes:
   redis-data-1: {}
   redis-data-2: {}
