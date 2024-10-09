@@ -1,0 +1,1 @@
+docker run -it --rm -v $(pwd):/root/build <your-image> ./gradlew build
