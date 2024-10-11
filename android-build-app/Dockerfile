@@ -16,6 +16,20 @@ RUN apt-get update && \
     curl \
     unzip
 
+RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.18.1/cmake-3.18.1-Linux-x86_64.sh -o /tmp/cmake-install.sh \
+    && chmod u+x /tmp/cmake-install.sh \
+    && mkdir /usr/bin/cmake \
+    && /tmp/cmake-install.sh --skip-license --prefix=/usr/bin/cmake \
+    && rm /tmp/cmake-install.sh
+
+# Install Ninja
+RUN curl -L https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-linux.zip -o ninja.zip \
+    && unzip ninja.zip -d /usr/local/bin \
+    && rm ninja.zip
+
+
+ENV PATH="/usr/bin/cmake/bin:${PATH}"
+
 # Set up Android SDK
 ENV ANDROID_HOME=/root/android-sdk
 ENV ANDROID_SDK_ROOT=$ANDROID_HOME
