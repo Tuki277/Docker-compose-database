@@ -1,0 +1,94 @@
+GET /_cat/health?v
+
+GET /_cat/indices?v
+
+PUT /student/_doc/1 
+{
+  "name": "ten 1",
+  "age": 20
+}
+
+GET /student/_doc/1
+
+PUT /student/_doc/1 
+{
+  "name": "ten 1 update",
+  "age": 20
+}
+
+DELETE /student/_doc/1
+
+DELETE /student
+
+DELETE /bank
+
+GET /bank/_doc/1
+
+GET /bank/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 100,
+  "from": 5,
+  "sort": [
+    {
+      "balance": {
+        "order": "desc"
+      }
+    }
+  ],
+  "_source": ["account_number", "balance"]
+}
+
+GET /bank/_search
+{
+  "query": {
+    "match": {
+      "account_number": "20"
+    }
+  }
+}
+
+# co ca 2
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+          {
+            "match": {
+              "address": "mill"
+            }
+          },
+          {
+            "match": {
+              "address": "lane"
+            }
+          }
+        ]
+      }
+    }
+  }
+  
+  
+# co 1 trong 2
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+          {
+            "match": {
+              "address": "mill"
+            }
+          },
+          {
+            "match": {
+              "address": "lane"
+            }
+          }
+        ]
+      }
+    }
+  }
