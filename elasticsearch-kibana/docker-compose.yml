@@ -5,8 +5,11 @@ services:
     container_name: elasticsearch
     restart: always
     environment:
-      - xpack.security.enabled=false
       - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=Tuki277
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - bootstrap.memory_lock=true
     ulimits:
       memlock:
         soft: -1
@@ -25,7 +28,9 @@ services:
     image: docker.elastic.co/kibana/kibana:7.11.0
     restart: always
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200    # address of elasticsearch docker container which kibana will connect
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic    # Default superuser
+      - ELASTICSEARCH_PASSWORD=Tuki277    # Should match the password set for Elasticsearch
     ports:
       - 5601:5601
     depends_on:
