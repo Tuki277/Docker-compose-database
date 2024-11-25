@@ -16,20 +16,6 @@ RUN apt-get update && \
     curl \
     unzip
 
-RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.18.1/cmake-3.18.1-Linux-x86_64.sh -o /tmp/cmake-install.sh \
-    && chmod u+x /tmp/cmake-install.sh \
-    && mkdir /usr/bin/cmake \
-    && /tmp/cmake-install.sh --skip-license --prefix=/usr/bin/cmake \
-    && rm /tmp/cmake-install.sh
-
-# Install Ninja
-RUN curl -L https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-linux.zip -o ninja.zip \
-    && unzip ninja.zip -d /usr/local/bin \
-    && rm ninja.zip
-
-
-ENV PATH="/usr/bin/cmake/bin:${PATH}"
-
 # Set up Android SDK
 ENV ANDROID_HOME=/root/android-sdk
 ENV ANDROID_SDK_ROOT=$ANDROID_HOME
@@ -43,9 +29,9 @@ RUN mkdir -p ${ANDROID_HOME}/cmdline-tools && \
     rm cmdline-tools.zip
 
 # Accept licenses and install necessary SDK components
-RUN mkdir -p ~/.android && touch ~/.android/repositories.cfg && \
-    yes | sdkmanager --licenses && \
-    sdkmanager "platform-tools" "build-tools;29.0.2" "platforms;android-29"
+RUN mkdir -p $ANDROID_SDK_ROOT/licenses/ \ 
+    && echo "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_SDK_ROOT/licenses/android-sdk-license \ 
+    && echo "84831b9409646a918e30573bab4c9c91346d8abd\n504667f4c0de7af1a06de9f4b1727b84351f2910" > $ANDROID_SDK_ROOT/licenses/android-sdk-preview-license
 
 # Install Android NDK
 ENV ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
