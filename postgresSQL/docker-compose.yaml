@@ -1,8 +1,7 @@
 version: '3.8'
 services:
   db:
-    platform: linux/x86_64
-    image: postgres:14.1-alpine
+    image: postgres:16-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -10,7 +9,8 @@ services:
     ports:
       - '5432:5432'
     volumes: 
-      - db:/var/lib/postgresql/data
+      # - db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data2
 volumes:
   db:
     driver: local
