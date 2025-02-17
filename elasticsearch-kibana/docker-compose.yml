@@ -19,10 +19,10 @@ services:
         hard: 65536
     cap_add:
       - IPC_LOCK
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.11.0
