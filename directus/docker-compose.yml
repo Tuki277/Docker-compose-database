@@ -14,35 +14,49 @@ services:
       ADMIN_EMAIL: "huyth@ikameglobal.com"
       ADMIN_PASSWORD: "HoangHuy@01"
       DB_CLIENT: "postgres"
-      DB_HOST: "<host>"
+      DB_HOST: "10.10.0.56"
       DB_PORT: "5432"
-      DB_DATABASE: "directus"
+      DB_DATABASE: "config-service"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
       DB_SSL: "false"
       DB_FILENAME: "/directus/database/data.db"
-      WEBSOCKETS_ENABLED: true
-      CACHE_ENABLED: "true"
-      CACHE_AUTO_PURGE: "true"
-      CACHE_STORE: "redis"
-      REDIS: "redis://:<password>@<host>:6379"
-    networks:
-      - dev
-  # postgres:
-  #   platform: linux/x86_64
+      # WEBSOCKETS_ENABLED: true
+      # CACHE_ENABLED: "true"
+      # CACHE_AUTO_PURGE: "true"
+      # CACHE_STORE: "redis"
+      # REDIS: "redis://:Tuki277@cache:6379"
+    # networks:
+    #   - dev
+    # depends_on:
+    #   - database
+    #   - cache
+  # database:
   #   image: postgres:14.1-alpine
   #   environment:
   #     - POSTGRES_USER=postgres
   #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=directus
   #   ports:
   #     - '5432:5432'
   #   volumes:
   #     - db:/var/lib/postgresql/data
   #   networks:
   #     - dev
+  # cache:
+  #   image: redis:6.2
+  #   ports:
+  #     - '6379:6379'
+  #   command: redis-server --save 20 1 --loglevel warning --requirepass Tuki277
+  #   volumes: 
+  #     - cache:/data
+  #   networks:
+  #     - dev
+volumes:
+  cache:
+    driver: local
+  db:
+    driver: local
 networks:
   dev:
     driver: bridge
-# volumes:
-#   db:
-#     driver: local
