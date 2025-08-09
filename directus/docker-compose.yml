@@ -16,11 +16,11 @@ services:
       DB_CLIENT: "postgres"
       DB_HOST: "10.10.0.56"
       DB_PORT: "5432"
-      DB_DATABASE: "config-service"
+      DB_DATABASE: "cms-mmp-config2"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
       DB_SSL: "false"
-      DB_FILENAME: "/directus/database/data.db"
+      # DB_FILENAME: "/directus/database/data.db"
       # WEBSOCKETS_ENABLED: true
       # CACHE_ENABLED: "true"
       # CACHE_AUTO_PURGE: "true"

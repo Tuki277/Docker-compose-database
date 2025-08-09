@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  supabase:
+    image: supabase/postgrest:latest
+    ports:
+      - "3000:3000"
+    environment:
+      PGRST_DB_URI: 'postgres://postgres:postgres@postgres:5432/supabase'
+      PGRST_DB_SCHEMA: 'public'
+      PGRST_JWT_SECRET: 'your_jwt_secret'
+volumes:
+  pgdata:
