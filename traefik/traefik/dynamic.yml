@@ -1,0 +1,28 @@
+http:
+  routers:
+    api_localhost:
+      entryPoints: [web]
+      rule: "Host(`localhost`) && PathPrefix(`/`)"
+      service: api_7777
+      middlewares: [cors]
+
+    dashboard:
+      entryPoints: [web]
+      rule: "Host(`traefik.localhost`)"
+      service: "api@internal"
+
+  middlewares:
+    cors:
+      headers:
+        accessControlAllowMethods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
+        accessControlAllowHeaders: ["*"]
+        accessControlAllowOriginList: ["http://localhost:3000","http://localhost:7777","http://localhost:5173","http://localhost"]
+        accessControlExposeHeaders: ["*"]
+        accessControlMaxAge: 86400
+        addVaryHeader: true
+
+  services:
+    api_7777:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:7777"
