@@ -1,15 +1,16 @@
 http:
   routers:
-    api_localhost:
+    config:
       entryPoints: [web]
-      rule: "Host(`localhost`) && PathPrefix(`/`)"
-      service: api_7777
-      middlewares: [cors]
+      rule: "Host(`localhost`) && PathPrefix(`/api/v1/config`)"
+      service: svc_config
+      middlewares: [cors, strip_config]
 
-    dashboard:
+    data:
       entryPoints: [web]
-      rule: "Host(`traefik.localhost`)"
-      service: "api@internal"
+      rule: "Host(`localhost`) && PathPrefix(`/api/v1/data`)"
+      service: svc_data
+      middlewares: [cors, strip_data]
 
   middlewares:
     cors:
@@ -17,12 +18,16 @@ http:
         accessControlAllowMethods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
         accessControlAllowHeaders: ["*"]
         accessControlAllowOriginList: ["http://localhost:3000","http://localhost:7777","http://localhost:5173","http://localhost"]
-        accessControlExposeHeaders: ["*"]
-        accessControlMaxAge: 86400
         addVaryHeader: true
+    strip_config:
+      stripPrefix: { prefixes: ["/api/v1/config"] }
+    strip_data:
+      stripPrefix: { prefixes: ["/api/v1/data"] }
 
   services:
-    api_7777:
+    svc_config:
       loadBalancer:
-        servers:
-          - url: "http://host.docker.internal:7777"
+        servers: [{ url: "http://host.docker.internal:3000" }]
+    svc_data:
+      loadBalancer:
+        servers: [{ url: "http://host.docker.internal:7777" }]
