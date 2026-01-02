@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  rancher:
+    image: rancher/rancher:stable
+    container_name: rancher
+    privileged: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - rancher-data:/var/lib/rancher
+volumes:
+  rancher-data:
+    driver: local
