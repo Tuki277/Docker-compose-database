@@ -14,12 +14,15 @@ services:
       ADMIN_EMAIL: "huyth@ikameglobal.com"
       ADMIN_PASSWORD: "HoangHuy@01"
       DB_CLIENT: "postgres"
-      DB_HOST: "10.10.0.56"
+      DB_HOST: "10.10.0.30"
       DB_PORT: "5432"
-      DB_DATABASE: "cms-mmp-config2"
+      DB_DATABASE: "revenue-cow-2"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
       DB_SSL: "false"
+
+      DB_SCHEMA: "directus_system"
+      DB_SEARCH_PATH: "directus_system,public"
       # DB_FILENAME: "/directus/database/data.db"
       # WEBSOCKETS_ENABLED: true
       # CACHE_ENABLED: "true"
