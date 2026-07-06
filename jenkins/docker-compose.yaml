@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  cert-init:
+    image: jenkins/jenkins:lts-jdk21
+    user: root
+    volumes:
+      - ./custom-certs:/certs:ro
+      - jenkins-cacerts:/cacerts-volume
+    command: >
+      bash -c '
+        cp "$${JAVA_HOME}/lib/security/cacerts" /cacerts-volume/cacerts &&
+        for cert in /certs/*.crt /certs/*.pem; do
+          [ -f "$$cert" ] || continue;
+          alias="custom-$$(basename "$${cert%.*}")";
+          "$${JAVA_HOME}/bin/keytool" -importcert -noprompt \
+            -keystore /cacerts-volume/cacerts \
+            -storepass changeit \
+            -alias "$$alias" \
+            -file "$$cert" || true;
+        done &&
+        echo "Custom CA certificates imported successfully"
+      '
+
+  # Main Jenkins container
+  jenkins:
+    image: jenkins/jenkins:lts-jdk21
+    depends_on:
+      cert-init:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - jenkins-cacerts:/cacerts:ro
+    environment:
+      JAVA_OPTS: "-Djavax.net.ssl.trustStore=/cacerts/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+
+volumes:
+  jenkins_home:
+  jenkins-cacerts:
