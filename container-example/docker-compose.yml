@@ -1,0 +1,48 @@
+services:
+  rest-api:
+    build: ./rest-api
+    container_name: rest-api
+    ports:
+      - "8081:8080"
+    networks:
+      - edge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app1.rule=PathPrefix(`/project/app1`)"
+      - "traefik.http.routers.app1.entrypoints=web"
+      - "traefik.http.routers.app1.middlewares=cors@file,strip-app1"
+      - "traefik.http.middlewares.strip-app1.stripprefix.prefixes=/project/app1"
+      - "traefik.http.services.app1.loadbalancer.server.port=8080"
+
+  websocket-api:
+    build: ./websocket-api
+    container_name: websocket-api
+    ports:
+      - "8082:8080"
+    networks:
+      - edge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app2.rule=PathPrefix(`/project/app2`)"
+      - "traefik.http.routers.app2.entrypoints=web"
+      - "traefik.http.routers.app2.middlewares=cors@file,strip-app2"
+      - "traefik.http.middlewares.strip-app2.stripprefix.prefixes=/project/app2"
+      - "traefik.http.services.app2.loadbalancer.server.port=8080"
+
+  grpc-api:
+    build: ./grpc-api
+    container_name: grpc-api
+    ports:
+      - "8083:50051"
+    networks:
+      - edge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app3.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.app3.entrypoints=grpc"
+      - "traefik.http.services.app3.loadbalancer.server.port=50051"
+      - "traefik.http.services.app3.loadbalancer.server.scheme=h2c"
+
+networks:
+  edge:
+    external: true
